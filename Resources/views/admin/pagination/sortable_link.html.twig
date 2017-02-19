@@ -1,0 +1,10 @@
+<a{% for attr, value in options %} {{ attr }}="{{ value }}"{% endfor %}>
+	{{ title }}
+	{% if options.class == "asc" %}
+	<i class="fr fa fa-sort-up pr-5"></i>
+	{% elseif options.class == "desc" %}
+	<i class="fr fa fa-sort-down pr-5"></i>
+	{% else %}
+	<i class="fr fa fa-sort pr-5"></i>
+	{% endif %}
+</a>

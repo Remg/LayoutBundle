@@ -1,0 +1,82 @@
+{% use "bootstrap_3_horizontal_layout.html.twig" %}
+
+{% block form_label_class -%}
+col-sm-3
+{%- endblock form_label_class %}
+
+{% block form_group_class -%}
+col-sm-6
+{%- endblock form_group_class %}
+
+{# Widgets #}
+
+{%- block form_widget -%}
+    {{- parent() -}}
+
+    {{- block('form_help') -}}
+{%- endblock form_widget -%}
+
+{% block form_widget_simple -%}
+	{% if icon is defined and icon is not null %}
+		{%- set attr = attr|merge({class: (attr.class|default('') ~ ' has-feedback-right')|trim}) -%}
+    	<span class="fa fa-{{ icon }} form-control-feedback right"></span>
+	{% endif %}
+
+    {{- parent() -}}
+{%- endblock form_widget_simple %}
+
+{%- block textarea_widget -%}
+    {{- parent() -}}
+
+    {{- block('form_help') -}}
+{%- endblock textarea_widget -%}
+
+{% block checkbox_widget -%}
+    {{- parent() -}}
+
+    {{- block('form_help') -}}
+{%- endblock checkbox_widget %}
+
+{%- block email_widget -%}
+	{{- parent() -}}
+
+	{{- block('form_help') -}}
+{%- endblock email_widget -%}
+
+{%- block choice_widget -%}
+	{{- parent() -}}
+
+	{{- block('form_help') -}}
+{%- endblock choice_widget -%}
+
+{%- block password_widget -%}
+	{{- parent() -}}
+
+	{{- block('form_help') -}}
+{%- endblock password_widget -%}
+
+{%- block datepicker_widget -%}
+    {% if widget == 'single_text' and datepicker is same as(true) %}
+	    <div class="input-group datetime-input " data-input-id="{{ form.vars.id }}">
+	        <span class="form-control">{{ 'select_date'|trans }}</span>
+	        <span class="input-group-addon"> azd
+	    		<i class="fa fa-calendar"></i>
+	    	</span>
+	    </div>
+
+	    <div class="hide">
+			{{- parent() -}}
+		</div>
+    {% else %}
+    	{{- parent() -}}
+	{% endif %}
+
+	{{- block('form_help') -}}
+{%- endblock datepicker_widget -%}
+
+{%- block form_help -%}
+    {% if help is defined and help is not null %}
+    	<div class="clearfix"></div>
+		<p class="help-block">{{ help|trans }}</p>
+	{% endif %}
+{%- endblock form_help -%}

@@ -1,0 +1,6 @@
+# Results
+no_result_found: 'Il n''y a aucune entrée à afficher.'
+# Results limit
+showing: 'Affichage de %from% à %to% sur %total% résultats'
+limit_per_page: '%limit% par page'
+show_per_page: 'Voir %limit% par page'

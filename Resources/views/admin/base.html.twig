@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block meta_title %}{{ 'app.title.default'|trans({}, 'admin') }}{% endblock meta_title %}</title>
+
+    {% stylesheets filter="cssrewrite,?scssphp" output="css/admin.css"
+        'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
+        'assets/vendor/bootstrap-daterangepicker/daterangepicker.css'
+        'assets/vendor/font-awesome/css/font-awesome.min.css'
+        'assets/vendor/nprogress/nprogress.css'
+        'assets/vendor/iCheck/skins/flat/blue.css'
+        'bundles/remglayout/admin/css/custom.css'
+        'bundles/remglayout/admin/css/layout.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% block stylesheets %}
+    {% endblock %}
+
+</head>
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+
+            {# Start left navigation #}
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+                    <div class="navbar nav_title" style="border: 0;">
+                        <a href="index.html" class="site_title">
+                            <i class="fa fa-paw"></i> <span>Gentellela Alela!</span>
+                        </a>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    {# Start menu profile quick info #}
+                    {% if app.user %}
+                        <div class="profile">
+                            <div class="profile_pic">
+                                <img src="{{ asset(app.user.profilePicture)|imagine_filter('square_100') }}" class="img-circle profile_img">
+                            </div>
+                            <div class="profile_info">
+                                <span>Welcome,</span>
+                                <h2>{{ app.user.username }}</h2>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {# End menu profile quick info #}
+
+                    <br />
+
+                    {# Start sidebar menu #}
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Général</h3>
+
+                            {# Main menu #}
+                            {{ knp_menu_render('admin_main', {
+                                'firstClass': null, 
+                                'currentClass': 'current-page',
+                                'ancestorClass': 'active',
+                                'lastClass': null,
+                                'template': 'RemgLayoutBundle:admin:menu/knp_menu_bootstrap_3.html.twig'
+                            }) }}
+
+                        </div>
+                    </div>
+                    {# End sidebar menu #}
+                </div>
+            </div>
+            {# End left navigation #}
+
+            {# Start top navigation #}
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        {# Main menu toggle button #}
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if app.user %}
+                                <li class="">
+                                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                        <img src="{{ asset(app.user.profilePicture)|imagine_filter('square_32') }}">
+                                        {{ app.user.username }}
+                                        <span class=" fa fa-angle-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-usermenu pull-right">
+                                        <li>
+                                            <a href="javascript:;"> {{ 'profile'|trans({}, 'admin') }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ logout_path('admin') }}">
+                                                <i class="fa fa-sign-out pull-right"></i> {{ 'logout'|trans({}, 'admin') }}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            {# End top navigation #}
+
+            {# Start page content #}
+            <div class="right_col">
+            {% block content %}
+                {# Start flash messages #}
+                {% for type, messages in app.session.flashbag.all %}
+                <div class="row">
+                    <div class="col-md-12">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }} alert-dismissible fade in">
+                            {% if type is same as('error') %}
+                                <i class="fa fa-warning"></i>
+                            {% elseif type is same as('success') %}
+                                <i class="fa fa-check"></i>
+                            {% endif %}
+                            <strong>{{ message }}</strong>
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span>×</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+                {# End flash messages #}
+
+                {# Page content #}
+                {% block body %}
+                Add content to the page ...
+                {% endblock body %}
+
+            {% endblock content %}
+            </div>
+            {# End page content #}
+
+            {# Start footer content #}
+            <footer>
+                <div class="pull-right">
+                    Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            {# End footer content #}
+
+        </div>
+    </div>
+
+    {% block modals %}
+    {% endblock modals %}
+
+    {% javascripts filter='?jsqueeze' output='js/admin.js'
+        'assets/vendor/jquery/dist/jquery.min.js'
+        'assets/vendor/bootstrap/dist/js/bootstrap.min.js'
+        'assets/vendor/fastclick/lib/fastclick.js'
+        'assets/vendor/nprogress/nprogress.js'
+        'assets/vendor/iCheck/icheck.min.js'
+        'assets/vendor/moment/moment.js'
+        'assets/vendor/bootstrap-daterangepicker/daterangepicker.js'
+            '@RemgLayoutBundle/Resources/public/admin/js/custom.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+    <script src="{{ asset('assets/vendor/moment/locale/' ~ app.request.locale ~ '.js') }}"></script>
+
+    {% block javascripts %}
+    {% endblock javascripts %}
+
+</body>
+</html>

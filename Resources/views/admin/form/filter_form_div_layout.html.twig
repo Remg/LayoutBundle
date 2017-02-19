@@ -1,0 +1,15 @@
+{% use 'RemgLayoutBundle:admin:form/form_div_horizontal_layout.html.twig' %}
+
+{% block filter_datetime_range_widget %}
+    <div class="input-group datetimerange-input" data-left-id="{{ form.left_datetime.vars.id }}" data-right-id="{{ form.right_datetime.vars.id }}">
+        <span class="form-control">{{ 'select_date_range'|trans }}</span>
+        <span class="input-group-addon">
+    		<i class="fa fa-calendar"></i>
+    	</span>
+    </div>
+
+	<div class="hide">
+    	{{ form_widget(form.left_datetime) }}
+    	{{ form_widget(form.right_datetime) }}
+	</div>
+{% endblock %}

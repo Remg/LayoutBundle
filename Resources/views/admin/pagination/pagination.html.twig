@@ -1,0 +1,31 @@
+{% if pagination.totalItemCount > 0 %}
+<div class="row">
+    <div class="col-md-6 pagination">
+        <span>
+            {{ 'showing'|trans({
+                    '%from%': pagination.paginationData.firstItemNumber,
+                    '%to%': pagination.paginationData.lastItemNumber,
+                    '%total%': pagination.totalItemCount
+            }, 'pagination') }}
+        </span>
+        <div class="btn-group btn-group-sm">
+            <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">
+                {{ 'limit_per_page'|trans({'%limit%': app.request.query.get('max_per_page', 5)}, 'pagination') }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                {% for max_per_page in [5, 10, 25, 50, 100] %}
+                <li>
+                    <a href="{{ path(app.request.attributes.get('_route'), app.request.query.all|merge({'max_per_page': max_per_page})) }}">
+                        {{ 'show_per_page'|trans({'%limit%': max_per_page}, 'pagination') }}
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-6 text-right">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,17 @@
+index: "Index"
+view: "Voir"
+edit: "Éditer"
+create: "Créer"
+filter: "Filtrer"
+save: "Sauvegarder"
+back_to_index: "Retour à la liste"
+
+creation: "Création"
+edition: "Édition"
+actions: "Actions"
+informations: "Informations"
+advanced_search: "Recherche avancée"
+
+yes: 'Oui'
+no: 'Non'
+

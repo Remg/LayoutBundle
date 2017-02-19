@@ -1,0 +1,51 @@
+services:
+#    remg_layout.example:
+#        class: Remg\LayoutBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    remg_layout.type_extension.datepicker:
+        class: Remg\LayoutBundle\Form\Extension\DatepickerTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\DateTimeType }
+    remg_layout.type_extension.help:
+        class: Remg\LayoutBundle\Form\Extension\HelpTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+    remg_layout.type_extension.icon:
+        class: Remg\LayoutBundle\Form\Extension\IconTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+
+
+    remg_layout.twig_extension:
+        class: Remg\LayoutBundle\Twig\RemgLayoutExtension
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.intl:
+        class: Twig_Extensions_Extension_Intl
+        tags:
+            - { name: twig.extension }
+
+    remg_paginator:
+        class: Remg\LayoutBundle\Pagination\Paginator
+        arguments:
+            - "@request_stack"
+            - "@doctrine.orm.entity_manager"
+            - "@knp_paginator"
+            - "@lexik_form_filter.query_builder_updater"
+
+    remg_admin_paginator:
+        class: Remg\LayoutBundle\Pagination\Paginator
+        parent: remg_paginator
+
+
+    remg_layout.admin_menu_builder:
+        class: Remg\LayoutBundle\Menu\AdminMenuBuilder
+        arguments:
+            - "@knp_menu.factory"
+            - "@request_stack"
+            - "@event_dispatcher"
+        tags:
+            - { name: knp_menu.menu_builder, method: buildAdmin, alias: admin_main }

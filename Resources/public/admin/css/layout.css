@@ -1,0 +1,11 @@
+.input-group {
+	margin-bottom: 0px;
+}
+
+.checkbox label, .radio label {
+	padding-left: 0;
+}
+
+.login_content {
+	text-shadow: none;
+}

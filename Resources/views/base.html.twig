@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block meta_title %}{{ 'app.title.default'|trans }}{% endblock meta_title %}</title>
+
+    {% stylesheets filter="cssrewrite,?scssphp" output="css/app.css"
+        'assets/vendor/bootstrap/dist/css/bootstrap.min.css'
+        'assets/vendor/font-awesome/css/font-awesome.min.css'
+        'bundles/remglayout/css/clean-blog.css'
+        'bundles/remglayout/css/syntax.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    {% block stylesheets %}
+    {% endblock %}
+
+    <!-- Custom Fonts -->
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+	<!-- Navigation -->
+	<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+	    <div class="container-fluid">
+	        <!-- Brand and toggle get grouped for better mobile display -->
+	        <div class="navbar-header page-scroll">
+	            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+	                <span class="sr-only">Toggle navigation</span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a class="navbar-brand" href="{{ path('homepage') }}">
+	            	{{ 'app.title.default'|trans }}
+	            	{% if app.user %}
+	            		(logged in as {{ app.user}})
+	            	{% endif %}
+	            </a>
+	        </div>
+
+	        <!-- Collect the nav links, forms, and other content for toggling -->
+	        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+	            <ul class="nav navbar-nav navbar-right">
+	                <li>
+	                    <a href="{{ path('homepage') }}/">Home</a>
+	                </li>
+
+	                <li>
+	                    <a href="{{ path('blog') }}">Blog</a>
+	                </li>
+	                {% if app.user %}
+		                <li>
+		                    <a href="{{ path('logout') }}">Logout</a>
+		                </li>
+	                {% else %}
+		                <li>
+		                	<a href="{{ path('login') }}">Login</a>
+		                </li>
+		            {% endif %}
+	                <li>
+	                	<a href="{{ path('admin_login') }}">Admin</a>
+	                </li>
+	            </ul>
+	        </div>
+	        <!-- /.navbar-collapse -->
+	    </div>
+	    <!-- /.container -->
+	</nav>
+
+	<!-- Page Header -->
+	<header class="intro-header" style="background-image: url('{{ asset('bundles/remglayout/images/home-bg.jpg') }}');">
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+	                <div class="site-heading">
+	                    <h1>
+	                    	{%- block title -%}
+	                    		{{ 'app.title.default'|trans }}
+	                    	{%- endblock title -%}
+	                    </h1>
+	                    <hr class="small">
+	                    {% block subtitle_container %}
+		                    <span class="subheading">
+		                    	{%- block subtitle -%}
+		                    		{{ 'app.description.default'|trans }}
+								{%- endblock subtitle -%}
+		                    </span>
+		                {% endblock subtitle_container %}
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</header>
+
+	<!-- Main Content -->
+	<div class="container">
+        {# Start flash messages #}
+        {% for type, messages in app.session.flashbag.all %}
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} alert-dismissible fade in">
+                    {% if type is same as('error') %}
+                        <i class="fa fa-warning"></i>
+                    {% elseif type is same as('success') %}
+                        <i class="fa fa-check"></i>
+                    {% endif %}
+                    <strong>{{ message }}</strong>
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span>×</span>
+                    </button>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+        {# End flash messages #}
+
+	    <div class="row">
+	        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+	            {% block content %}
+	            {% endblock content %}
+	        </div>
+	    </div>
+	</div>
+
+	<hr>
+
+	<!-- Footer -->
+	<footer>
+	    <div class="container">
+	        <div class="row">
+	            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+	                <ul class="list-inline text-center">
+	                    <li>
+	                        <a href="{{ path('homepage') }}">
+	                            <span class="fa-stack fa-lg">
+	                                <i class="fa fa-circle fa-stack-2x"></i>
+	                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+	                            </span>
+	                        </a>
+	                    </li>
+	                </ul>
+	                <p class="copyright text-muted">Copyright &copy; Remg {{ 'now'|date('Y') }}</p>
+	            </div>
+	        </div>
+	    </div>
+	</footer>
+
+    {% javascripts filter='?jsqueeze' output='js/app.js'
+        'assets/vendor/jquery/dist/jquery.min.js'
+        'assets/vendor/bootstrap/dist/js/bootstrap.min.js'
+        '@RemgLayoutBundle/Resources/public/js/clean-blog.js' %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+    {% block javascripts %}
+    {% endblock javascripts %}
+
+</body>
+
+</html>

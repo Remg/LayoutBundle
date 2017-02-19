@@ -1,0 +1,5 @@
+{%- if boolean is same as(true) -%}
+<span class="label label-success">{{ 'yes'|trans({}, 'admin') }}</span>
+{%- else -%}
+<span class="label label-danger">{{ 'no'|trans({}, 'admin') }}</span>
+{%- endif -%}
